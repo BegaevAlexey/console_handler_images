@@ -15,7 +15,7 @@ int main(int argc, char **argv)
         std::getline(std::cin, msg);
 
         handler->process(msg);
-        if(handler->isWorked())
+        if(!handler->isWorked())
         {
             break;
         }

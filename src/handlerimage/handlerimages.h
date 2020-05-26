@@ -2,6 +2,9 @@
 #define CONSOLE_HANDLER_IMAGES_HANDLERIMAGES_H
 
 #include <string>
+#include <vector>
+
+#include "utils/defines.h"
 
 namespace hi
 {
@@ -12,6 +15,15 @@ namespace hi
  */
 class HandlerImages
 {
+protected:
+    /*!
+     * @brief Type of operation on the image
+     */
+    enum class Operation
+    {
+        OPR_EXIT,
+    };
+
 public:
     /*!
      *
@@ -35,7 +47,17 @@ public:
      */
     bool isWorked();
 
-private:
+protected:
+    /*!
+     *
+     * @param msg
+     * @return
+     */
+    std::pair<Operation, std::vector<std::string>> getOperations(const std::string &msg);
+
+    static std::vector<std::string> split(const std::string &fullStr);
+
+protected:
     bool m_isWorked; ///< Flag for checking work process
 
 
