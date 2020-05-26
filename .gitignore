@@ -1,0 +1,12 @@
+cmake-build*
+*idea
+build*
+log*
+*log
+define_com.h
+images
+data/doxygen/
+lib
+include
+3rdparty
+run
