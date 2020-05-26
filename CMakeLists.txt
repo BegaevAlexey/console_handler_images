@@ -4,9 +4,11 @@ project(console_handler_images)
 set(CMAKE_CXX_STANDARD 17)
 
 set(HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/handlerimage/handlerimages.h
         )
 
 set(SOURCE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/handlerimage/handlerimages.cpp
         )
 
 set(INCLUDE_DIR
