@@ -9,6 +9,8 @@ set(HEADERS
 
 set(SOURCE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/handlerimage/handlerimages.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/defines.h
         )
 
 set(INCLUDE_DIR
