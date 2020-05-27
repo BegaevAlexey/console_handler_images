@@ -117,7 +117,7 @@ void hi::HandlerImages::handlingOperation(const std::pair<Operation, std::vector
             this->loadImage(opertions.second);
             break;
         case Operation::OPR_SAVE :
-//            this->saveImage(opertions.second);
+            this->saveImage(opertions.second);
             break;
         case Operation::OPR_BLUR :
 //            this->blurImage(opertions.second);
@@ -163,4 +163,22 @@ bool hi::HandlerImages::checkCountArgs(const std::vector<std::string>& args, int
     }
 
     return true;
+}
+
+void hi::HandlerImages::saveImage(const std::vector<std::string>& args)
+{
+    if(!HandlerImages::checkCountArgs(args, 2))
+    {
+        return;
+    }
+
+    auto find = m_images.find(args[0]);
+    if(find != m_images.end())
+    {
+        cv::imwrite(args[1], m_images[args[0]]);
+    }
+    else
+    {
+        LOG_WARNING("Image " << args[0] << " was not found among the uploaded!");
+    }
 }

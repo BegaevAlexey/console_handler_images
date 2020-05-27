@@ -80,12 +80,12 @@ protected:
 
     /*!
      * @brief Handling operation with its argumets
-     * @param opertions[in] operation type with arguments
+     * @param operations[in] operation type with arguments
      */
     void handlingOperation(const std::pair<Operation, std::vector<std::string>> &opertions);
 
     /*!
-     * Load image from disk
+     * Loads an image from a file.
      * @param args[in] args[0] - name image in app, args[1] - path to image
      */
     void loadImage(const std::vector<std::string> &args);
@@ -97,6 +97,12 @@ protected:
      * @return false - if args.size != count and send warnign message
      */
     static bool checkCountArgs(const std::vector<std::string> &args, int count);
+
+    /*!
+     * Write image to a file
+     * @param args[in] args[0] - name image in app, args[1] - path to image
+     */
+    void saveImage(const std::vector<std::string> &args);
 
 protected:
     bool m_isWorked; ///< Flag for checking work process
