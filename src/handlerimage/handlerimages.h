@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <opencv2/opencv.hpp>
 
 #include "utils/defines.h"
 
@@ -71,13 +73,34 @@ protected:
 
     /*!
      * @brief Get type of operation from string
-     * @param strOpr[in] String name of operation
+     * @param strOpr[in] string name of operation
      * @return operation type
      */
     static Operation getTypeOperation(const std::string &strOpr);
 
+    /*!
+     * @brief Handling operation with its argumets
+     * @param opertions[in] operation type with arguments
+     */
+    void handlingOperation(const std::pair<Operation, std::vector<std::string>> &opertions);
+
+    /*!
+     * Load image from disk
+     * @param args[in] args[0] - name image in app, args[1] - path to image
+     */
+    void loadImage(const std::vector<std::string> &args);
+
+    /*!
+     * @brief Check count of arguments.
+     * @param args[in] count of arguments
+     * @param count[in] right count
+     * @return false - if args.size != count and send warnign message
+     */
+    static bool checkCountArgs(const std::vector<std::string> &args, int count);
+
 protected:
     bool m_isWorked; ///< Flag for checking work process
+    std::map<const std::string, cv::Mat> m_images; ///< Map with name images and opencv images
 
 
 };

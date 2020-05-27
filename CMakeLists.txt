@@ -3,6 +3,8 @@ project(console_handler_images)
 
 set(CMAKE_CXX_STANDARD 17)
 
+FIND_PACKAGE(OpenCV REQUIRED)
+
 set(HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/handlerimage/handlerimages.h
         )
@@ -18,6 +20,7 @@ set(INCLUDE_DIR
         )
 
 set(LIBS
+        ${OpenCV_LIBS}
         )
 
 add_executable(${PROJECT_NAME} main.cpp  ${SOURCE} ${HEADERS})

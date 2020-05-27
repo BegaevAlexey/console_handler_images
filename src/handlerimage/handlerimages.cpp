@@ -17,7 +17,7 @@ void hi::HandlerImages::process(const std::string& msg)
     auto opertions = HandlerImages::getOperations(msg);
 
     // handling operation with arguments
-//    this->handlingOperation(opertions);
+    this->handlingOperation(opertions);
 }
 
 bool hi::HandlerImages::isWorked() const
@@ -38,7 +38,8 @@ std::pair<hi::HandlerImages::Operation, std::vector<std::string>> hi::HandlerIma
     // operation type
     auto operType = HandlerImages::getTypeOperation(strings[0]);
 
-    return {operType, strings};
+    std::vector<std::string> args(strings.begin() + 1, strings.end());
+    return {operType, args};
 }
 
 std::vector<std::string> hi::HandlerImages::split(const std::string &fullStr)
@@ -99,4 +100,67 @@ hi::HandlerImages::Operation hi::HandlerImages::getTypeOperation(const std::stri
     }
 
     return Operation::OPR_NONE;
+}
+
+void hi::HandlerImages::handlingOperation(const std::pair<Operation, std::vector<std::string>>& opertions)
+{
+    switch(opertions.first)
+    {
+        case Operation::OPR_EXIT :
+            LOG_INFO("PROGRAM EXIT");
+            m_isWorked = false;
+            break;
+        case Operation::OPR_WAR :
+            LOG_WARNING(opertions.second[0]);
+            break;
+        case Operation::OPR_LOAD :
+            this->loadImage(opertions.second);
+            break;
+        case Operation::OPR_SAVE :
+//            this->saveImage(opertions.second);
+            break;
+        case Operation::OPR_BLUR :
+//            this->blurImage(opertions.second);
+            break;
+        case Operation::OPR_RSZ :
+//            this->resizeImage(opertions.second);
+            break;
+        case Operation::OPR_HELP :
+//            this->showHelp();
+            break;
+        case Operation::OPR_NONE :
+            LOG_WARNING("Unknown operation!");
+            break;
+    }
+}
+
+void hi::HandlerImages::loadImage(const std::vector<std::string>& args)
+{
+    if(!HandlerImages::checkCountArgs(args, 2))
+    {
+        return;
+    }
+
+    m_images[args[0]] = cv::imread(args[1]);
+    if (m_images[args[0]].empty())
+    {
+        LOG_WARNING("Image " << args[1] << " was not loaded!")
+    }
+}
+
+bool hi::HandlerImages::checkCountArgs(const std::vector<std::string>& args, int count)
+{
+    if(args.size() < count)
+    {
+        LOG_WARNING("Not enough argumets!");
+        return false;
+    }
+
+    if(args.size() < count)
+    {
+        LOG_WARNING("Not enough argumets!");
+        return false;
+    }
+
+    return true;
 }
