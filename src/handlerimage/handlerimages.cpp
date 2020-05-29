@@ -128,7 +128,7 @@ void hi::HandlerImages::handlingOperation(const std::pair<Operation, std::vector
             this->blurImage(opertions.second);
             break;
         case Operation::OPR_RSZ :
-//            this->resizeImage(opertions.second);
+            this->resizeImage(opertions.second);
             break;
         case Operation::OPR_HELP :
 //            this->showHelp();
@@ -149,7 +149,7 @@ void hi::HandlerImages::loadImage(const std::vector<std::string>& args)
     m_images[args[0]] = cv::imread(args[1]);
     if (m_images[args[0]].empty())
     {
-        LOG_WARNING("Image " << args[1] << " was not loaded!")
+        LOG_WARNING("Image " << args[1] << " was not loaded!");
     }
 }
 
@@ -214,4 +214,24 @@ void hi::HandlerImages::blurImage(const std::vector<std::string>& args)
     auto src = cv::Mat(m_images[args[0]], cv::Rect(0,0, size, size));
     auto dst = cv::Mat(m_images[args[1]], cv::Rect(0,0, size, size));
     cv::blur(src, dst, cv::Size(2,2));
+}
+
+void hi::HandlerImages::resizeImage(const std::vector<std::string>& args)
+{
+    if(!HandlerImages::checkCountArgs(args, 4))
+    {
+        return;
+    }
+
+    if(m_images.find(args[0]) == m_images.end())
+    {
+        LOG_WARNING("Image '" << args[0] <<  "' was not found!");
+        return;
+    }
+
+    m_images.insert(std::pair(args[1], m_images[args[0]].clone()));
+
+    int width = std::atoi(args[2].c_str());
+    int height = std::atoi(args[3].c_str());
+    cv::resize(m_images[args[0]], m_images[args[1]], cv::Size(width, height));
 }

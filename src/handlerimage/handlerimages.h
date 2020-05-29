@@ -99,16 +99,22 @@ protected:
     static bool checkCountArgs(const std::vector<std::string> &args, int count);
 
     /*!
-     * Write image to a file
+     * @brief Write image to a file
      * @param args[in] args[0] - name image in app, args[1] - path to image
      */
     void saveImage(const std::vector<std::string> &args);
 
     /*!
-     * Write image to a file
-     * @param args[in] args[0] - name image stc, args[1] - image dst, args[2] - size
+     * @brief Blurs an image using the normalized box filter.
+     * @param args[in] args[0] - name image src, args[1] - image dst, args[2] - size
      */
     void blurImage(const std::vector<std::string> &args);
+
+    /*!
+     * @brief Resizes an image.
+     * @param args[in] args[0] - name image stc, args[1] - image dst, args[2] - new width, args[3] - new height
+     */
+    void resizeImage(const std::vector<std::string> &args);
 
 protected:
     bool m_isWorked; ///< Flag for checking work process
