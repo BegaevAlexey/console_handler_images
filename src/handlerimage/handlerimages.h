@@ -116,6 +116,11 @@ protected:
      */
     void resizeImage(const std::vector<std::string> &args);
 
+    /*!
+     * @brief Show help page.
+     */
+    void showHelp();
+
 protected:
     bool m_isWorked; ///< Flag for checking work process
     std::map<const std::string, cv::Mat> m_images; ///< Map with name images and opencv images

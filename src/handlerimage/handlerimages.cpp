@@ -131,7 +131,7 @@ void hi::HandlerImages::handlingOperation(const std::pair<Operation, std::vector
             this->resizeImage(opertions.second);
             break;
         case Operation::OPR_HELP :
-//            this->showHelp();
+            this->showHelp();
             break;
         case Operation::OPR_NONE :
             LOG_WARNING("Unknown operation!");
@@ -203,7 +203,7 @@ void hi::HandlerImages::blurImage(const std::vector<std::string>& args)
 
     int size = std::atoi(args[2].c_str());
 
-    if((m_images[args[0]].rows > size) || (m_images[args[0]].cols > size))
+    if((m_images[args[0]].rows < size) || (m_images[args[0]].cols < size))
     {
         LOG_WARNING("The size is more than image size");
         return;
@@ -228,10 +228,27 @@ void hi::HandlerImages::resizeImage(const std::vector<std::string>& args)
         LOG_WARNING("Image '" << args[0] <<  "' was not found!");
         return;
     }
-
-    m_images.insert(std::pair(args[1], m_images[args[0]].clone()));
-
     int width = std::atoi(args[2].c_str());
     int height = std::atoi(args[3].c_str());
+    if((width<1) || (height<1))
+    {
+        LOG_WARNING("Size is smaller than 1");
+        return;
+    }
+
+    m_images.insert(std::pair(args[1], m_images[args[0]].clone()));
     cv::resize(m_images[args[0]], m_images[args[1]], cv::Size(width, height));
+}
+
+void hi::HandlerImages::showHelp()
+{
+    const std::string  help =
+    "[load, lod]     <name> <filename> Load an image \n" ;
+    "[store, s]      <name> <filename> Save an image \n" ;
+    "[blur]          <from_name> <to_name> <size> Blurs an image using the normalized box filter \n" ;
+    "[resize]        <from_name> <to_name> <new_width> <new_height> Resize an image \n" ;
+    "[help, h]       <> Show help \n" ;
+    "[exit, quit, q] <> Exit app \n" ;
+
+    std::cout << help << std::endl;
 }
