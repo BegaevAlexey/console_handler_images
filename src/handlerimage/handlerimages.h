@@ -104,6 +104,12 @@ protected:
      */
     void saveImage(const std::vector<std::string> &args);
 
+    /*!
+     * Write image to a file
+     * @param args[in] args[0] - name image stc, args[1] - image dst, args[2] - size
+     */
+    void blurImage(const std::vector<std::string> &args);
+
 protected:
     bool m_isWorked; ///< Flag for checking work process
     std::map<const std::string, cv::Mat> m_images; ///< Map with name images and opencv images

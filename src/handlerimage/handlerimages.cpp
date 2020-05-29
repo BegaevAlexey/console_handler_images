@@ -8,6 +8,11 @@ hi::HandlerImages::HandlerImages()
 
 hi::HandlerImages::~HandlerImages()
 {
+    for(auto &img: m_images)
+    {
+        img.second.release();
+    }
+
     LOG_INFO("Handler was destroyed!");
 }
 
@@ -120,7 +125,7 @@ void hi::HandlerImages::handlingOperation(const std::pair<Operation, std::vector
             this->saveImage(opertions.second);
             break;
         case Operation::OPR_BLUR :
-//            this->blurImage(opertions.second);
+            this->blurImage(opertions.second);
             break;
         case Operation::OPR_RSZ :
 //            this->resizeImage(opertions.second);
@@ -181,4 +186,32 @@ void hi::HandlerImages::saveImage(const std::vector<std::string>& args)
     {
         LOG_WARNING("Image " << args[0] << " was not found among the uploaded!");
     }
+}
+
+void hi::HandlerImages::blurImage(const std::vector<std::string>& args)
+{
+    if(!HandlerImages::checkCountArgs(args, 3))
+    {
+        return;
+    }
+
+    if(m_images.find(args[0]) == m_images.end())
+    {
+        LOG_WARNING("Image '" << args[0] <<  "' was not found!");
+        return;
+    }
+
+    int size = std::atoi(args[2].c_str());
+
+    if((m_images[args[0]].rows > size) || (m_images[args[0]].cols > size))
+    {
+        LOG_WARNING("The size is more than image size");
+        return;
+    }
+
+    m_images.insert(std::pair(args[1], m_images[args[0]].clone()));
+
+    auto src = cv::Mat(m_images[args[0]], cv::Rect(0,0, size, size));
+    auto dst = cv::Mat(m_images[args[1]], cv::Rect(0,0, size, size));
+    cv::blur(src, dst, cv::Size(2,2));
 }
